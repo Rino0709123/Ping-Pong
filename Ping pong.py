@@ -29,9 +29,9 @@ class Player(GameSprite2):
 
    def update(self):
        keys = key.get_pressed()
-       if keys[K_UP] and self.rect.x > 5:
+       if keys[K_UP] and self.rect.y > 5:
            self.rect.y -= self.speed
-       if keys[K_DOWN]: #and self.rect.x < win_width - 80
+       if keys[K_DOWN] and self.rect.y < 370: #and self.rect.x < win_width - 80
            self.rect.y += self.speed
    def fire(self):
        bullet = Bullet('bullet.png', self.rect.x, self.rect.top, 10)
@@ -42,9 +42,9 @@ class Player2(GameSprite2):
 
    def update(self):
        keys = key.get_pressed()
-       if keys[K_w] and self.rect.x > 5:
+       if keys[K_w] and self.rect.y > 5:
            self.rect.y -= self.speed
-       if keys[K_s]:#and self.rect.x < win_width - 80
+       if keys[K_s] and self.rect.y < 370:#and self.rect.x < win_width - 80
            self.rect.y += self.speed
    def fire(self):
        bullet = Bullet('bullet.png', self.rect.x, self.rect.top, 10)
@@ -61,6 +61,8 @@ ball=0
 class Bullet(GameSprite):
     def update(self):
         self.rect.y -= self.speed
+        self.rect.x -= self.speed
+
         if self.rect.y < 0:
             self.kill()
 
@@ -72,9 +74,9 @@ display.set_caption("Shooter Game")
 background = transform.scale(image.load("galaxy.jpg"), (win_width, win_height))
 
 
-player1 = Player('rocket.png', 665,  410, 4)
-player2 = Player2('rocket.png', 10,  210, 4)
-bullet=Bullet('bullet.png', 300,  410, 4)
+player1 = Player('rocket.png', 665,  200, 4)
+player2 = Player2('rocket.png', 10,  200, 4)
+bullet=Bullet('bullet.png', 300,  410, 3)
 
 665,  410
 game = True
@@ -123,10 +125,11 @@ while game:
         
         
     '''if pygame.sprite.spritecollide(player1, bullet, True, True):
-        ball+=1
-    if pygame.sprite.spritecollide(player2, bullet, True, True):
         ball+=1'''
-
+    if bullet.rect.colliderect(player1):
+        bullet.speed*=-1
+    if bullet.rect.colliderect(player2):
+        bullet.speed*=-1
 
     display.update()
     clock.tick(FPS)
