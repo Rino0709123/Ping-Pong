@@ -55,8 +55,8 @@ class Player2(GameSprite2):
 
 
 
-lost=0
-ball=0
+#lost=0
+#ball=0
 
 
 class Bullet(GameSprite):
@@ -73,7 +73,7 @@ class Bullet(GameSprite):
 win_width = 700
 win_height = 500
 window = display.set_mode((win_width, win_height))
-display.set_caption("Shooter Game")
+display.set_caption("Ping Pong")
 background = transform.scale(image.load("galaxy.jpg"), (win_width, win_height))
 
 
@@ -90,14 +90,14 @@ FPS = 60
 font.init()
 font1 = font.Font(None, 35)
 font = font.Font(None, 70)
-win = font.render('YOU WIN!', True, (19, 255, 13))
-lose = font.render('YOU LOSE!', True, (240, 0, 0))
+win = font.render('Player 1 lose!', True, (240, 0, 0))
+lose = font.render('Player 2 lose!', True, (240, 0, 0))
 
 
 
 while game:
-    text_lose = font1.render("Пропущено: " + str(lost), 1, (255, 255, 255))
-    text_ball = font1.render("Счёт: " + str(ball), 1, (255, 255, 255))
+    '''text_lose = font1.render("Пропущено: " + str(lost), 1, (255, 255, 255))
+    text_ball = font1.render("Счёт: " + str(ball), 1, (255, 255, 255))'''
     for e in event.get():
         if e.type == QUIT:
            game = False
@@ -115,8 +115,8 @@ while game:
         player2.reset()
         bullet.reset()
         #bullet.draw(window)
-        window.blit(text_lose, (5, 35))
-        window.blit(text_ball, (5, 5))
+        #window.blit(text_lose, (5, 35))
+        #window.blit(text_ball, (5, 5))
 
            
     '''if lost>=3:
@@ -133,6 +133,10 @@ while game:
         bullet.speed*=-1
     if bullet.rect.colliderect(player2):
         bullet.speed*=-1
+    if bullet.rect.x >730:
+       window.blit(lose, (210, 210)) 
+    if bullet.rect.x <-40:
+       window.blit(win, (210, 210))
 
 
     display.update()
