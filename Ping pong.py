@@ -2,13 +2,14 @@ from pygame import *
 from random import randint
 
 class GameSprite(sprite.Sprite):
-   def __init__(self, player_image, player_x, player_y, player_speed):
+   def __init__(self, player_image, player_x, player_y, player_speed,player_speedn2):
        super().__init__()
        self.image = transform.scale(image.load(player_image), (50, 50))
        self.speed = player_speed
        self.rect = self.image.get_rect()
        self.rect.x = player_x
        self.rect.y = player_y
+       self.speed2 =player_speedn2
 
    def reset(self):
        window.blit(self.image, (self.rect.x, self.rect.y))
@@ -60,11 +61,13 @@ ball=0
 
 class Bullet(GameSprite):
     def update(self):
-        self.rect.y -= self.speed
+        self.rect.y -= self.speed2
         self.rect.x -= self.speed
 
-        if self.rect.y < 0:
-            self.kill()
+        if self.rect.y >450 or self.rect.y < 0:
+            self.speed2*=-1
+
+            
 
 
 win_width = 700
@@ -76,7 +79,7 @@ background = transform.scale(image.load("galaxy.jpg"), (win_width, win_height))
 
 player1 = Player('rocket.png', 665,  200, 4)
 player2 = Player2('rocket.png', 10,  200, 4)
-bullet=Bullet('bullet.png', 300,  410, 3)
+bullet=Bullet('bullet.png', 300,  410, 4,3)
 
 665,  410
 game = True
@@ -130,6 +133,7 @@ while game:
         bullet.speed*=-1
     if bullet.rect.colliderect(player2):
         bullet.speed*=-1
+
 
     display.update()
     clock.tick(FPS)
